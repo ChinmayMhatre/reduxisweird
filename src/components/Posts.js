@@ -1,23 +1,13 @@
 import React, { Component } from 'react'
 import axios from 'axios';
-
+import {connect} from 'react-redux'
+import {fetchPosts} from './actions/postActions'
+import { bindActionCreators } from 'redux'
 
 class Posts extends Component {
-    constructor(props){
-        super(props)
-        this.state = {
-            posts : []
-        }
+    componentWillMount(){
+        this.props.fetchPosts()
     }
-
-    componentDidMount(){
-        axios.get("https://jsonplaceholder.typicode.com/posts")
-        .then(data=>{
-            console.log(data)
-            this.setState({posts : data.data})
-        })
-    }
-
     render() {
         return (
             <div>
@@ -34,4 +24,6 @@ class Posts extends Component {
         )
     }
 }
-export default Posts
+const mapDispatchProps = (dispatch) => bindActionCreators({fetchPosts},dispatch)
+
+export default connect(null,mapDispatchProps)(Posts)
